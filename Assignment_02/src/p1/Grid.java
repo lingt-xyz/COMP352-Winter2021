@@ -18,8 +18,8 @@ public class Grid {
 
     public Grid(Grid grid) {
         this.numberOfRows = grid.numberOfRows;
-        this.numberOfColumns = grid.numberOfRows;
-        this.cells = grid.cells;
+        this.numberOfColumns = grid.numberOfColumns;
+        this.cells = grid.cells.clone();
     }
 
     /**
@@ -29,13 +29,16 @@ public class Grid {
      */
     public static Grid Init() {
         Random random = new Random();
-        return new Grid(5 + random.nextInt(16), 5 + random.nextInt(16));
+        Grid grid = new Grid(5 + random.nextInt(16), 5 + random.nextInt(16));
+//        Grid grid = new Grid(5 , 5 + random.nextInt(5));
+        grid.fill();
+        return grid;
     }
 
     /**
      * Fill the grid randomly with 0s and 1s
      */
-    public void fill() {
+    private void fill() {
         Random random = new Random();
         for (int i = 0; i < this.cells.length; i++) {
             for (int j = 0; j < this.cells[i].length; j++) {
@@ -44,76 +47,42 @@ public class Grid {
         }
     }
 
-    public Cell getCell(Coordinate coordinate){
+    public Cell getCell(Coordinate coordinate) {
         return this.cells[coordinate.getRow()][coordinate.getColumn()];
+    }
+
+    public Cell[][] getCells() {
+        return cells;
     }
 
     public List<Cell> getNeighbors(Cell cell) {
         List<Cell> cells = new ArrayList<>();
         Coordinate coordinate = cell.getCoordinate();
-        if (coordinate.getRow() == 0) {
-            // below
+        if (coordinate.getRow() > 0) {
+            // above
+            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn()]);
+            if (coordinate.getColumn() > 0) {// above left
+                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1]);
+            }
+            if (coordinate.getColumn() < this.numberOfColumns - 1) {// above right
+                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1]);
+            }
+        }
+        if (coordinate.getRow() < this.numberOfRows - 1) {
+            //below
             cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn()]);
-            if (coordinate.getColumn() == 0) {
-                // right
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
-                // below + right
-                cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() + 1]);
-            } else if (coordinate.getColumn() == this.numberOfColumns - 1) {
-                // left
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
-                // below + left
+            if (coordinate.getColumn() > 0) {// below left
                 cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() - 1]);
-            } else {
-                // left
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
-                // right
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
-                // below + left
-                cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() - 1]);
-                // below + right
+            }
+            if (coordinate.getColumn() < this.numberOfColumns - 1) {// below right
                 cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() + 1]);
             }
-        } else if (coordinate.getRow() == this.numberOfRows - 1) {
-            // above
-            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn()]);
-            if (coordinate.getColumn() == 0) {
-                // right
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
-                // above + right
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1]);
-            } else if (coordinate.getColumn() == this.numberOfColumns - 1) {
-                // left
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
-                // above + left
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1]);
-            } else {
-                // left
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
-                // right
-                cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
-                // above + left
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1]);
-                // above + right
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1]);
-            }
-        } else {
-            // above
-            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn()]);
-            // above + left
-            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1]);
-            // above + right
-            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1]);
-            // left
+        }
+        if (coordinate.getColumn() > 0) {// left
             cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
-            // right
+        }
+        if (coordinate.getColumn() < this.numberOfColumns - 1) {// right
             cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
-            // below
-            cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn()]);
-            // below + left
-            cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() - 1]);
-            // below + right
-            cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() + 1]);
         }
         return cells;
     }

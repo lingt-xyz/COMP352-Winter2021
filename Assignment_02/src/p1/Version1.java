@@ -10,16 +10,16 @@ public class Version1 {
      * @param coordinate
      * @return the size of the labeled colony
      */
-    public int ExploreAndLabelColony(Grid grid, Coordinate coordinate) {
+    public int ExploreAndLabelColony(Grid grid, Coordinate coordinate, char label) {
         Cell cell = grid.getCell(coordinate);
-        int colony = 0;
-        if (cell.presence()) {
-            for (Cell c : grid.getNeighbors(cell)) {
-                if (c.presence()) {
-                    colony++;
-                }
+        cell.setExplored(true);
+        int size = 1;
+        cell.setValue(label);
+        for (Cell c : grid.getNeighbors(cell)) {
+            if (!c.isExplored() && c.presence()) {
+                size += ExploreAndLabelColony(grid, c.getCoordinate(), label);
             }
         }
-        return colony;
+        return size;
     }
 }
