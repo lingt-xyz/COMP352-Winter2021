@@ -60,29 +60,53 @@ public class Grid {
         Coordinate coordinate = cell.getCoordinate();
         if (coordinate.getRow() > 0) {
             // above
-            cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn()]);
+            Cell above = this.cells[coordinate.getRow() - 1][coordinate.getColumn()];
+            if (above.presence()) {
+                cells.add(above);
+            }
             if (coordinate.getColumn() > 0) {// above left
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1]);
+                Cell aboveLeft = this.cells[coordinate.getRow() - 1][coordinate.getColumn() - 1];
+                if (aboveLeft.presence()) {
+                    cells.add(aboveLeft);
+                }
             }
             if (coordinate.getColumn() < this.numberOfColumns - 1) {// above right
-                cells.add(this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1]);
+                Cell aboveRight = this.cells[coordinate.getRow() - 1][coordinate.getColumn() + 1];
+                if (aboveRight.presence()) {
+                    cells.add(aboveRight);
+                }
             }
         }
         if (coordinate.getRow() < this.numberOfRows - 1) {
             //below
-            cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn()]);
+            Cell below = this.cells[coordinate.getRow() + 1][coordinate.getColumn()];
+            if (below.presence()) {
+                cells.add(below);
+            }
             if (coordinate.getColumn() > 0) {// below left
-                cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() - 1]);
+                Cell belowLeft = this.cells[coordinate.getRow() + 1][coordinate.getColumn() - 1];
+                if (belowLeft.presence()) {
+                    cells.add(belowLeft);
+                }
             }
             if (coordinate.getColumn() < this.numberOfColumns - 1) {// below right
-                cells.add(this.cells[coordinate.getRow() + 1][coordinate.getColumn() + 1]);
+                Cell belowRight = this.cells[coordinate.getRow() + 1][coordinate.getColumn() + 1];
+                if (belowRight.presence()) {
+                    cells.add(belowRight);
+                }
             }
         }
         if (coordinate.getColumn() > 0) {// left
-            cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() - 1]);
+            Cell left = this.cells[coordinate.getRow()][coordinate.getColumn() - 1];
+            if (left.presence()) {
+                cells.add(left);
+            }
         }
         if (coordinate.getColumn() < this.numberOfColumns - 1) {// right
-            cells.add(this.cells[coordinate.getRow()][coordinate.getColumn() + 1]);
+            Cell right = this.cells[coordinate.getRow()][coordinate.getColumn() + 1];
+            if (right.presence()) {
+                cells.add(right);
+            }
         }
         return cells;
     }
