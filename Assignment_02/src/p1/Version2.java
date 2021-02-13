@@ -1,6 +1,5 @@
 package p1;
 
-import java.util.List;
 import java.util.Stack;
 
 public class Version2 {
@@ -10,12 +9,12 @@ public class Version2 {
         cell.setExplored(true);
         stack.push(cell);
         int size = 0;
-        while(!stack.empty()){
+        while (!stack.empty()) {
             Cell c = stack.pop();
             size++;
             c.setValue(label);
-            for(Cell t : grid.getNeighbors(c)){
-                if(!t.isExplored()){
+            for (Cell t : grid.getNeighbors(c)) {
+                if (!t.isExplored()) {
                     t.setExplored(true);
                     stack.push(t);
                 }
